@@ -4,8 +4,7 @@
   "version": "1.0",
   "description": "This Chrome extension checks the presence and correct hierarchy of header tags (H1 to H6) on web pages, helping developers ensure content is structured according to best practices for accessibility and SEO. With a single click, the extension analyzes the current page, highlighting any inconsistencies and suggesting improvements in header tag organization.",
   "action": {
-    "default_popup": "h1-h6-tag-tester.html",
-    "default_icon": "hello_extensions.png"
+    "default_popup": "h1-h6-tag-tester.html"
   },
   "icons": {
     "16": "icons/icon16.png",
