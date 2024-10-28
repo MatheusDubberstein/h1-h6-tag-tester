@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "author": "Matheus Dubberstein da Silva",
   "name": "H1-H6 Tag Tester",
-  "version": "1.2",
-  "description": "Displays the hierarchy of H1-H6 tags on webpages, highlights them with customizable colors, adds tag name badges, and provides keyboard shortcuts.",
+  "version": "0.0.0.2",
+  "description": "Displays the hierarchy of H1-H6 tags on webpages, highlights them with customizable colors, adds tag name.",
   "action": {
     "default_popup": "popup/index.html"
   },
