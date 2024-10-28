@@ -21,6 +21,7 @@ function highlightTags(elements, tag) {
     title.style.top = "-1.8rem";
     title.style.left = "0.5rem";
     title.style.height = "2rem";
+    title.style.zIndex = "999999";
     // center title content
     title.style.display = "flex";
     title.style.alignItems = "center";
@@ -44,6 +45,43 @@ function highlightTags(elements, tag) {
     element.appendChild(title);
   });
 }
+function buildTree(paths) {
+  const tree = {};
+
+  paths.forEach((path) => {
+    let currentLevel = tree;
+
+    path.forEach((tag) => {
+      if (!currentLevel[tag]) {
+        currentLevel[tag] = {};
+      }
+      currentLevel = currentLevel[tag];
+    });
+  });
+
+  return tree;
+}
+
+const headerTagsElementsArray = [];
+function getElement(element, path = []) {
+  const elementTagName = element.tagName.toLowerCase();
+  const elementId = element.id ? `#${element.id}` : "";
+  const currentPath = [...path, `${elementTagName}${elementId}`];
+  if (/^h[1-6]$/.test(elementTagName)) {
+    headerTagsElementsArray.push(currentPath);
+  } else {
+    Array.from(element.children).forEach((child) => {
+      getElement(child, currentPath);
+    });
+  }
+
+  if (element === document.body) {
+    const tree = buildTree(headerTagsElementsArray);
+    chrome.runtime.sendMessage({ action: "sendTree", tree });
+  }
+}
+
+getElement(document.body);
 
 if (h1tags) {
   highlightTags(h1tags, "h1");
