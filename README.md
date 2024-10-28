@@ -55,6 +55,7 @@ The extension will now appear in your list of installed extensions.
 ## Screenshots
 
 ![Extension Popup](images/popup.png)
+
 _The extension popup displaying the hierarchy, color legend, and settings._
 
 ![Highlighted Headings](images/highlighted-headings.png)
