@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
+  "author": "Matheus Dubberstein da Silva",
   "name": "H1-H6 Tag Tester",
-  "version": "1.1",
+  "version": "1.2",
   "description": "This Chrome extension checks the presence and correct hierarchy of header tags (H1 to H6) on web pages, helping developers ensure content is structured according to best practices for accessibility and SEO. With a single click, the extension analyzes the current page, highlighting any inconsistencies and suggesting improvements in header tag organization.",
-  "permissions": ["activeTab", "scripting"],
   "action": {
     "default_popup": "popup/index.html"
   },
@@ -12,15 +12,39 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "content_scripts": [
-    {
-      "js": ["scripts/content.js"],
-      "matches": ["<all_urls>"]
-    }
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "commands",
+    "webNavigation"
   ],
+
   "background": {
     "service_worker": "scripts/background.js"
   },
 
-  "author": "Matheus Dubberstein da Silva"
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": ["<all_urls>"],
+      "all_frames": true
+    }
+  ],
+  "host_permissions": ["<all_urls>"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H",
+        "mac": "Command+Shift+H"
+      },
+      "description": "Opens the popup extension"
+    },
+    "toggleHighlight": {
+      "suggested_key": {
+        "default": "Alt+Shift+H"
+      },
+      "description": "Active/Deactive highlight"
+    }
+  }
 }

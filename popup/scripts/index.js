@@ -1,27 +1,17 @@
-console.log("Popup script loaded");
-chrome.runtime.sendMessage({ action: "getTree" }, (response) => {
-  if (chrome.runtime.lastError) {
-    console.error("Error to recieve runtime:", chrome.runtime.lastError);
-    return;
-  }
+document.addEventListener("DOMContentLoaded", function () {
+  const highlightButton = document.getElementById("highlightButton");
 
-  const tree = response;
-  if (!tree) {
-    console.log("Tree is empty");
-    return;
-  }
+  highlightButton.addEventListener("click", function () {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "highlightHeadings" });
+    });
+  });
 
-  const treeContainer = document.getElementById("tree-container");
+  let allHeadings = [];
 
-  function printTree(node, depth = 0) {
-    for (const key in node) {
-      const element = document.createElement("div");
-      element.style.marginLeft = `${depth * 20}px`;
-      element.textContent = key;
-      treeContainer.appendChild(element);
-      printTree(node[key], depth + 1);
+  chrome.runtime.onMessage.addListener(function (request) {
+    if (request.action === "collectHeadings") {
+      allHeadings = allHeadings.concat(request.headings);
     }
-  }
-
-  printTree(tree);
+  });
 });

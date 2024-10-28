@@ -1,103 +1,138 @@
-const h1tags = document.querySelectorAll("h1");
-const h2tags = document.querySelectorAll("h2");
-const h3tags = document.querySelectorAll("h3");
-const h4tags = document.querySelectorAll("h4");
-const h5tags = document.querySelectorAll("h5");
-const h6tags = document.querySelectorAll("h6");
-const colors = {
-  h1: { bg: "#f8d7da", text: "#721c24" },
-  h2: { bg: "#d4edda", text: "#155724" },
-  h3: { bg: "#cce5ff", text: "#004085" },
-  h4: { bg: "#fff3cd", text: "#856404" },
-  h5: { bg: "#d1ecf1", text: "#0c5460" },
-  h6: { bg: "#f7e4d7", text: "#723f1c" },
-};
-function highlightTags(elements, tag) {
-  elements.forEach((element) => {
-    //  Create title element
-    const title = document.createElement("strong");
-    //  Position Title
-    title.style.position = "absolute";
-    title.style.top = "-1.8rem";
-    title.style.left = "0.5rem";
-    title.style.height = "2rem";
-    title.style.zIndex = "999999";
-    // center title content
-    title.style.display = "flex";
-    title.style.alignItems = "center";
-    title.style.justifyContent = "center";
-    // style title
-    title.style.backgroundColor = `${colors[tag].bg}80`; // 50% opacity
-    title.style.color = colors[tag].text;
-    title.style.fontSize = "0.75rem";
-    title.style.padding = "0 0.5rem";
-    title.style.borderRadius = "0.25rem";
-    title.style.fontWeight = "bold";
-    // set title content
-    title.textContent = tag.toUpperCase();
-
-    // set position to relative
-    element.style.position = "relative";
-    element.style.background = `${colors[tag].bg}4D`; // 30% opacity
-    element.style.border = `0.125rem dashed ${colors[tag].bg}`;
-    element.style.boxSize = "border-box";
-    // Append elements
-    element.appendChild(title);
-  });
+// Convert hex to rgba
+function hexToRgba(hex, alpha) {
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
-function buildTree(paths) {
-  const tree = {};
 
-  paths.forEach((path) => {
-    let currentLevel = tree;
+function getHeadings() {
+  const headings = [];
+  const nodes = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+  nodes.forEach(function (node) {
+    headings.push({
+      text: node.innerText.trim(),
+      level: parseInt(node.tagName.substring(1)),
+    });
+  });
 
-    path.forEach((tag) => {
-      if (!currentLevel[tag]) {
-        currentLevel[tag] = {};
+  return headings;
+}
+
+function highlightHeadingsInDocument(doc, colors) {
+  const styleId = "headingHighlightStyle";
+  let style = doc.getElementById(styleId);
+
+  if (!style) {
+    style = doc.createElement("style");
+    style.id = styleId;
+    style.innerHTML = `
+      h1, h2, h3, h4, h5, h6 {
+        position: relative !important;
+        outline-offset: -2px !important; /* Ajusta o outline para incluir o badge */
       }
-      currentLevel = currentLevel[tag];
+      .heading-badge {
+        position: absolute;
+        top: -1rem;
+        right: 0px;
+        background-color: #000;
+        color: #fff;
+        padding: 2px 5px;
+        font-size: 12px;
+        border-radius: 3px;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      h1 .heading-badge {
+        background-color: ${colors.h1};
+      }
+      h2 .heading-badge {
+        background-color: ${colors.h2};
+      }
+      h3 .heading-badge {
+        background-color: ${colors.h3};
+      }
+      h4 .heading-badge {
+        background-color: ${colors.h4};
+      }
+      h5 .heading-badge {
+        background-color: ${colors.h5};
+      }
+      h6 .heading-badge {
+        background-color: ${colors.h6};
+      }
+      h1 {
+        outline: 2px dashed ${colors.h1} !important;
+        background-color: ${hexToRgba(colors.h1, 0.2)} !important;
+      }
+      h2 {
+        outline: 2px dashed ${colors.h2} !important;
+        background-color: ${hexToRgba(colors.h2, 0.2)} !important;
+      }
+      h3 {
+        outline: 2px dashed ${colors.h3} !important;
+        background-color: ${hexToRgba(colors.h3, 0.2)} !important;
+      }
+      h4 {
+        outline: 2px dashed ${colors.h4} !important;
+        background-color: ${hexToRgba(colors.h4, 0.2)} !important;
+      }
+      h5 {
+        outline: 2px dashed ${colors.h5} !important;
+        background-color: ${hexToRgba(colors.h5, 0.2)} !important;
+      }
+      h6 {
+        outline: 2px dashed ${colors.h6} !important;
+        background-color: ${hexToRgba(colors.h6, 0.2)} !important;
+      }
+    `;
+    // Add sytle to head
+    doc.head.appendChild(style);
+    // Add badge to headings
+    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    headings.forEach(function (heading) {
+      const badge = doc.createElement("div");
+      badge.className = "heading-badge";
+      badge.textContent = heading.tagName;
+      heading.style.position = "relative";
+      heading.style.overflow = "visible"; // avoid clipping badge
+      heading.appendChild(badge);
     });
-  });
-
-  return tree;
-}
-
-const headerTagsElementsArray = [];
-function getElement(element, path = []) {
-  const elementTagName = element.tagName.toLowerCase();
-  const elementId = element.id ? `#${element.id}` : "";
-  const currentPath = [...path, `${elementTagName}${elementId}`];
-  if (/^h[1-6]$/.test(elementTagName)) {
-    headerTagsElementsArray.push(currentPath);
   } else {
-    Array.from(element.children).forEach((child) => {
-      getElement(child, currentPath);
+    // Remove style
+    style.remove();
+    // Remove badge from headings
+    const badges = doc.querySelectorAll(".heading-badge");
+    badges.forEach(function (badge) {
+      badge.parentElement.removeChild(badge);
     });
   }
+}
 
-  if (element === document.body) {
-    const tree = buildTree(headerTagsElementsArray);
-    chrome.runtime.sendMessage({ action: "sendTree", tree });
+function highlightHeadings() {
+  const colors = {
+    h1: "#F7768E",
+    h2: "#9ECE6A",
+    h3: "#E0AF68",
+    h4: "#7AA2F7",
+    h5: "#BB9AF7",
+    h6: "#7DCFFF",
+  };
+  highlightHeadingsInDocument(document, colors);
+}
+
+// message listener
+chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
+  if (request.action === "getHeadings") {
+    const headings = getHeadings();
+    sendResponse({ headings: headings });
+  } else if (request.action === "highlightHeadings") {
+    highlightHeadings();
   }
-}
+});
 
-getElement(document.body);
-
-if (h1tags) {
-  highlightTags(h1tags, "h1");
-}
-if (h2tags) {
-  highlightTags(h2tags, "h2");
-}
-if (h3tags) {
-  highlightTags(h3tags, "h3");
-}
-if (h4tags) {
-  highlightTags(h4tags, "h4");
-}
-if (h5tags) {
-  highlightTags(h5tags, "h5");
-}
-if (h6tags) {
-  highlightTags(h6tags, "h6");
-}
+chrome.runtime.sendMessage({
+  action: "collectHeadings",
+  headings: getHeadings(),
+});
