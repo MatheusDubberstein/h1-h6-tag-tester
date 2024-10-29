@@ -5,12 +5,12 @@
   "version": "0.0.0.2",
   "description": "Displays the hierarchy of H1-H6 tags on webpages, highlights them with customizable colors, adds tag name.",
   "action": {
-    "default_popup": "popup/index.html"
+    "default_popup": "src/popup/index.html"
   },
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
   },
   "permissions": [
     "activeTab",
@@ -21,12 +21,12 @@
   ],
 
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "dist/scripts/background.js"
   },
 
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
+      "js": ["dist/scripts/content.js"],
       "matches": ["<all_urls>"],
       "all_frames": true
     }
