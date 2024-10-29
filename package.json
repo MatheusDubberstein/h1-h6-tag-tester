@@ -1,0 +1,19 @@
+{
+  "name": "h1-h6-tag-tester",
+  "version": "1.0.0",
+  "description": "An extension that displays the hierarchy of H1-H6 tags on any webpage, highlights them with customizable colors following the Tokyo Night theme, and provides additional features to enhance web development and SEO tasks.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.0.279",
+    "@types/node": "^22.8.2",
+    "typescript": "^5.6.3"
+  }
+}
