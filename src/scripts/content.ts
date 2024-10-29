@@ -1,5 +1,19 @@
+interface HeadingColors {
+  h1: string;
+  h2: string;
+  h3: string;
+  h4: string;
+  h5: string;
+  h6: string;
+}
+
+interface Heading {
+  text: string;
+  level: number;
+}
+
 // Convert hex to rgba
-function hexToRgba(hex, alpha) {
+function hexToRgba(hex: string, alpha: number): string {
   const bigint = parseInt(hex.slice(1), 16);
   const r = (bigint >> 16) & 255;
   const g = (bigint >> 8) & 255;
@@ -7,9 +21,11 @@ function hexToRgba(hex, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-function getHeadings() {
-  const headings = [];
-  const nodes = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+function getHeadings(): Heading[] {
+  const headings: Heading[] = [];
+  const nodes = document.querySelectorAll<HTMLHeadingElement>(
+    "h1, h2, h3, h4, h5, h6",
+  );
   nodes.forEach(function (node) {
     headings.push({
       text: node.innerText.trim(),
@@ -20,9 +36,12 @@ function getHeadings() {
   return headings;
 }
 
-function highlightHeadingsInDocument(doc, colors) {
+function highlightHeadingsInDocument(
+  doc: Document,
+  colors: HeadingColors,
+): void {
   const styleId = "headingHighlightStyle";
-  let style = doc.getElementById(styleId);
+  let style = doc.getElementById(styleId) as HTMLStyleElement | null;
 
   if (!style) {
     style = doc.createElement("style");
@@ -30,7 +49,7 @@ function highlightHeadingsInDocument(doc, colors) {
     style.innerHTML = `
       h1, h2, h3, h4, h5, h6 {
         position: relative !important;
-        outline-offset: -2px !important; /* Ajusta o outline para incluir o badge */
+        outline-offset: -2px !important; 
       }
       .heading-badge {
         position: absolute;
@@ -90,7 +109,9 @@ function highlightHeadingsInDocument(doc, colors) {
     // Add sytle to head
     doc.head.appendChild(style);
     // Add badge to headings
-    const headings = doc.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    const headings = doc.querySelectorAll<HTMLHeadingElement>(
+      "h1, h2, h3, h4, h5, h6",
+    );
     headings.forEach(function (heading) {
       const badge = doc.createElement("div");
       badge.className = "heading-badge";
@@ -105,12 +126,14 @@ function highlightHeadingsInDocument(doc, colors) {
     // Remove badge from headings
     const badges = doc.querySelectorAll(".heading-badge");
     badges.forEach(function (badge) {
-      badge.parentElement.removeChild(badge);
+      if (badge.parentElement) {
+        badge.parentElement.removeChild(badge);
+      }
     });
   }
 }
 
-function highlightHeadings() {
+function highlightHeadings(): void {
   const colors = {
     h1: "#F7768E",
     h2: "#9ECE6A",
