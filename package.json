@@ -7,13 +7,17 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "npx tsc"
+    "build:css": "tailwindcss -i ./src/popup/styles/tailwind.css -o ./dist/tailwind.css --minify",
+    "build": "npx tsc && npm run build:css"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "^0.0.279",
     "@types/node": "^22.8.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
   }
 }
