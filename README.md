@@ -54,11 +54,11 @@ The extension will now appear in your list of installed extensions.
 
 ## Screenshots
 
-![Extension Popup](images/popup.png)
+![Extension Popup](assets/images/popup.png)
 
 _The extension popup displaying the hierarchy, color legend, and settings._
 
-![Highlighted Headings](images/highlighted-headings.png)
+![Highlighted Headings](assets/images/highlighted-headings.png)
 _Headings highlighted on a webpage with badges indicating their tag names._
 
 ## Keyboard Shortcuts
