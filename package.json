@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i ./src/popup/styles/tailwind.css -o ./dist/tailwind.css --minify",
-    "build": "npx tsc && npm run build:css"
+    "build": "npx tsc && npm run build:css",
+    "dev": "npx tailwindcss -i ./src/popup/styles/tailwind.css -o ./dist/tailwind.css --watch"
   },
   "author": "",
   "license": "ISC",
