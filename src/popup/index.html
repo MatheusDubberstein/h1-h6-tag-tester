@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>H1-H6 tag tester</title>
+    <link href="../../dist/tailwind.css" rel="stylesheet" />
+  </head>
+  <body
+    class="w-60 bg-gradient-to-t from-tokyonight-blue-900 to-slate-900 flex flex-col items-center justify-center gap-4 m-5"
+  >
+    <img
+      src="../../assets/icons/icon128.png"
+      class="h-32 w-32 rounded-lg"
+      alt="Logo"
+    />
+
+    <button
+      id="highlightButton"
+      type="button"
+      class="w-full text-green-500 border border-green-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+    >
+      Highlight tags
+    </button>
+    <section class="flex flex-col gap-4 p-2 rounded-lg bg-slate-800">
+      <h2 class="text-center text-md font-bold text-sky-400">Colors legend</h2>
+      <ul class="grid grid-cols-3 gap-2">
+        <li
+          class="flex flex-col gap-1 items-center justify-center text-sky-100"
+        >
+          <span class="bg-tokyonight-red w-4 h-4 rounded"></span> H1
+        </li>
+        <li
+          class="flex flex-col gap-1 items-center justify-center text-sky-100"
+        >
+          <span class="bg-tokyonight-green w-4 h-4 rounded"></span> H2
+        </li>
+        <li
+          class="flex flex-col gap-1 items-center justify-center text-sky-100"
+        >
+          <span class="bg-tokyonight-orange w-4 h-4 rounded"></span> H3
+        </li>
+        <li
+          class="flex flex-col gap-1 items-center justify-center text-sky-100"
+        >
+          <span class="bg-tokyonight-blue-300 w-4 h-4 rounded"></span> H4
+        </li>
+        <li
+          class="flex flex-col gap-1 items-center justify-center text-sky-100"
+        >
+          <span class="bg-tokyonight-purple w-4 h-4 rounded"></span> H5
+        </li>
+        <li
+          class="flex flex-col gap-1 items-center justify-center text-sky-100"
+        >
+          <span class="bg-tokyonight-blue-100 w-4 h-4 rounded"></span> H6
+        </li>
+      </ul>
+    </section>
+    <script src="../../dist/popup/scripts/index.js" type="module"></script>
+  </body>
+</html>
