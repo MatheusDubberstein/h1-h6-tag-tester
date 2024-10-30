@@ -12,13 +12,7 @@
     "48": "assets/icons/icon48.png",
     "128": "assets/icons/icon128.png"
   },
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage",
-    "commands",
-    "webNavigation"
-  ],
+  "permissions": ["activeTab", "scripting", "commands", "webNavigation"],
 
   "background": {
     "service_worker": "dist/scripts/background.js"
